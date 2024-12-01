@@ -1,0 +1,11 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "The butt of the Leaderless GIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "asrrriel",
+  "license": "CC0"
+}
