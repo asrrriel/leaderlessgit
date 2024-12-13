@@ -40,5 +40,5 @@
 <h1>Latest Posts:</h1>
 
   {#each posts as post}
-    <Post title={post.title} author={post.author.username} timestamp={post.timestamp} />
+    <Post title={post.title} author={post.author.username} author_avatar_url={post.author.avatar_url} timestamp={post.timestamp} />
   {/each}
