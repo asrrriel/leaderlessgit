@@ -6,15 +6,14 @@ const fs = require('fs');
 const staticDirectory = path.join(__dirname, 'public');
 
 function do404(res) {
-    res.writeHead(404, { 'Content-Type': 'text/plain' });
-    fs.readFile(staticDirectory + "404.html", (err, data) => {
+    fs.readFile(path.join(staticDirectory, '404.html'), (err, data) => {
         if (err) {
             res.writeHead(500, { 'Content-Type': 'text/plain' });
-            res.end("500 Internal Server Error\n");
+            res.write("500 Internal Server Error\n");
             return;
         }
         res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end(data);
+        res.write(data);
     });
 }
 
@@ -30,34 +29,34 @@ http.createServer(async function (req, res) {
             }
 
             do404(res);
+            return;
         }
 
         // Read and serve the file
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'text/plain' });
-                res.end("500 Internal Server Error\n");
-                return;
+                res.write("500 Internal Server Error\n");
+            }else{
+                // Determine the MIME type
+                const ext = path.extname(filePath).toLowerCase();
+                const mimeTypes = {
+                    '.html': 'text/html',
+                    '.css': 'text/css',
+                    '.js': 'application/javascript',
+                    '.json': 'application/json',
+                    '.png': 'image/png',
+                    '.jpg': 'image/jpeg',
+                    '.gif': 'image/gif',
+                    '.svg': 'image/svg+xml',
+                    '.txt': 'text/plain',
+                };
+                const contentType = mimeTypes[ext] || 'application/octet-stream';
+
+                res.writeHead(200, { 'Content-Type': contentType });
+                res.write(data);
             }
-
-            // Determine the MIME type
-            const ext = path.extname(filePath).toLowerCase();
-            const mimeTypes = {
-                '.html': 'text/html',
-                '.css': 'text/css',
-                '.js': 'application/javascript',
-                '.json': 'application/json',
-                '.png': 'image/png',
-                '.jpg': 'image/jpeg',
-                '.gif': 'image/gif',
-                '.svg': 'image/svg+xml',
-                '.txt': 'text/plain',
-            };
-            const contentType = mimeTypes[ext] || 'application/octet-stream';
-
-            res.writeHead(200, { 'Content-Type': contentType });
-            res.end(data);
-
+            res.end();
         });
     });
 }).listen(8080, () => {
