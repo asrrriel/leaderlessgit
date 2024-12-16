@@ -2,8 +2,43 @@
 import LatestPosts from '../components/LatestPosts.svelte';
 ---
 
-<head>
-  <title>LeaderlessGIT</title>
-</head>
+<style>
+    #everything {
+        display: flex;
+        flex-direction: row;
+    }
+    #sidebar-left {
+        display: block;
+        width: 200px;
+        height: 100vh;
+        background-color: #f9f9f9;
+        border-right: 1px solid #ddd;
+        margin-right: 16px;
+    }
+    li {
+        display: block;
+        list-style: none;
+        width:100%;
+        height:40px;
+        background-color: darkgray;
+        margin-top: 10px;
+        border-radius: 8px;
+        text-align: center;
+        align-content: center;
+    }
+</style>
 
-<LatestPosts client:only="svelte" />
+<head>
+    <title>LeaderlessGIT</title>
+</head>
+<div id="everything">
+    <div id="sidebar-left">
+        <ul>
+            <li>Home</li>
+            <li>Tree</li>
+            <li>Commits</li>
+            <li>Discussions</li>
+        </ul>
+    </div>
+    <LatestPosts client:only="svelte" />
+</div>

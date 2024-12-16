@@ -5,7 +5,9 @@ module.exports = {
         if(!req.url.startsWith("/api")) return false;
         if(req.url.startsWith("/api/posts")){
             res.writeHead(200, {'Content-Type': 'text/json'});
-            res.write(JSON.stringify([{id: 1,type: 1,title: "Wayland sucks, I give up",author_id: 1,timestamp: 1694017830}]));
+            res.write(JSON.stringify([
+                {id: 1,type: 1,title: "Never gonna give you up",author_id: 1,timestamp: 1694017830},
+            ]));
             return true;
         };
         if(req.url.startsWith("/api/users/get/1")){
