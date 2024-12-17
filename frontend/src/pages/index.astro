@@ -3,6 +3,12 @@ import LatestPosts from '../components/LatestPosts.svelte';
 ---
 
 <style>
+    body {
+        background-color: black;
+        color: white;
+        color-scheme: dark;
+    } 
+
     #everything {
         display: flex;
         flex-direction: row;
@@ -11,14 +17,14 @@ import LatestPosts from '../components/LatestPosts.svelte';
         display: block;
         width: 200px;
         height: 100vh;
-        background-color: #f9f9f9;
+        background-color: black;
         border-right: 1px solid #ddd;
         margin-right: 16px;
     }
-    li {
+    #sidebar-left li {
         display: block;
         list-style: none;
-        width:100%;
+        width:90%;
         height:40px;
         background-color: darkgray;
         margin-top: 10px;
@@ -32,13 +38,15 @@ import LatestPosts from '../components/LatestPosts.svelte';
     <title>LeaderlessGIT</title>
 </head>
 <div id="everything">
-    <div id="sidebar-left">
+    <nav id="sidebar-left" aria-label="Main Navigation">
         <ul>
             <li>Home</li>
             <li>Tree</li>
             <li>Commits</li>
+            <li>Branches</li>
             <li>Discussions</li>
+            <li>Votes</li>
         </ul>
-    </div>
+    </nav>
     <LatestPosts client:only="svelte" />
 </div>
