@@ -40,12 +40,12 @@ import LatestPosts from '../components/LatestPosts.svelte';
 <div id="everything">
     <nav id="sidebar-left" aria-label="Main Navigation">
         <ul>
-            <li>Home</li>
-            <li>Tree</li>
-            <li>Commits</li>
-            <li>Branches</li>
-            <li>Discussions</li>
-            <li>Votes</li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/tree">Tree</a></li>
+            <li><a href="/commits">Commits</a></li>
+            <li><a href="/branches">Branches</a></li>
+            <li><a href="/discussions">Discussions</a></li>
+            <li><a href="/votes">Votes</a></li>
         </ul>
     </nav>
     <LatestPosts client:only="svelte" />
