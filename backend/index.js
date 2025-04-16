@@ -8,7 +8,7 @@ const staticDirectory = path.join(__dirname, '../frontend/dist');
 async function errpage(res, code, message) {
     var result = await serveFile(path.join(staticDirectory, "/error"), null);
     if (result == 404) {
-        res.writeHead(404,{'Conetent-Type' : 'text/html'})
+        res.writeHead(404,{'Content-Type' : 'text/html'})
         res.write("Error page not found");
         res.end();
         return;
