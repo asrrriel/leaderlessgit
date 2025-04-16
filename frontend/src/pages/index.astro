@@ -1,5 +1,6 @@
 ---
 import LatestPosts from '../components/LatestPosts.svelte';
+import SideBar from '../components/SideBar.svelte';
 ---
 
 <style>
@@ -13,45 +14,12 @@ import LatestPosts from '../components/LatestPosts.svelte';
         display: flex;
         flex-direction: row;
     }
-    #sidebar-left {
-        display: block;
-        width: 200px;
-        height: 100vh;
-        background-color: black;
-        color: white;
-        border-right: 1px solid #ddd;
-        margin-right: 16px;
-    }
-    #sidebar-left li {
-        display: block;
-        list-style: none;
-        width:90%;
-        height:40px;
-        background-color: darkgray;
-        margin-top: 10px;
-        border-radius: 8px;
-        text-align: center;
-        align-content: center;
-    }
-    #sidebar-left li a {
-        text-decoration: none;
-        color: white;
-    }
 </style>
 
 <head>
     <title>LeaderlessGIT</title>
 </head>
 <div id="everything">
-    <nav id="sidebar-left" aria-label="Main Navigation">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/tree">Tree</a></li>
-            <li><a href="/commits">Commits</a></li>
-            <li><a href="/branches">Branches</a></li>
-            <li><a href="/discussions">Discussions</a></li>
-            <li><a href="/votes">Votes</a></li>
-        </ul>
-    </nav>
+    <SideBar />
     <LatestPosts client:only="svelte" />
 </div>
