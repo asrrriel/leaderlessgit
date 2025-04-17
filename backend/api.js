@@ -6,13 +6,14 @@ module.exports = {
         if(req.url.startsWith("/api/posts")){
             res.writeHead(200, {'Content-Type': 'text/json'});
             res.write(JSON.stringify([
-                {id: 1,type: 1,title: "Never gonna give you up",author_id: 1,timestamp: 1694017830},
+                {id: 1,type: 1,title: "test post",author: "god@heaven.hu",timestamp: 1694017830},
+                {id: 1,type: 1,title: "Trololero Trololo",author: "god@heaven.hu",timestamp: 1694017830},
             ]));
             return true;
         };
-        if(req.url.startsWith("/api/users/get/1")){
+        if(req.url.startsWith("/api/users/get/god@heaven.hu")){
             res.writeHead(200, {'Content-Type': 'text/json'});
-            res.write(JSON.stringify({id:1,username: "Matthias Klumpp",avatar_url: "https://secure.gravatar.com/avatar/bb7b83cab8ae1b29c0bc2d3541bcf104c353b03cf52c40a791045ccf2a042ab8?s=384&d=identicon"}));
+            res.write(JSON.stringify({name:"god@heaven.hu",dispname: "Asrrriel",avatar_url: "https://cdn.discordapp.com/avatars/936986830543413310/20fdb75c25b7a55790ade61275fa8328.webp?size=1024&width=461&height=461"}));
             return true;
         };
         res.writeHead(200, {'Content-Type': 'text/json'});

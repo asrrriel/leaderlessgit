@@ -1,6 +1,7 @@
 <script>
     export let title;
     export let author;
+    export let author_realname;
     export let timestamp;
     export let author_avatar_url;
 </script>
@@ -9,7 +10,7 @@
     <img class="avatar" src="{author_avatar_url}" alt="{author}" />
     <div class="side-thing">
         <h1 class="post-title">{title}</h1>
-        <p class="post-author">by {author}</p>
+        <p class="post-author">by {author}<i class="post-author-uname">({author_realname})</i></p>
         <p class="post-timestamp">{new Date(timestamp * 1000).toLocaleString()}</p>
     </div>
 </article>
@@ -38,12 +39,17 @@
     .post-title {
         margin: 0;
         font-size: 24px;
-        color: black;
+        color: whitesmoke;
     }
 
     .post-author {
         margin: 8px 0 0;
         font-size: 16px;
+        color: white;
+    }
+
+    .post-author-uname {
+        font-size: 12px;
         color: silver;
     }
 
