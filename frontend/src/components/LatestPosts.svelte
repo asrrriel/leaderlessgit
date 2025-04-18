@@ -2,10 +2,18 @@
     import Post from './Post.svelte';
 
     let posts = [];
+    let search = '';
 
     async function fetchLatestPosts() {
         try {
-            const postsResponse = await fetch('/api/posts');
+            let url = '/api/posts';
+            if(search !== '') {
+                const match = search.match(/^by:(title|author)\s+(.*)$/i);
+                const [, searchType, searchTerm] = match;
+                console.log(searchType, searchTerm);
+                url = `/api/posts/search/${searchType}/${encodeURIComponent(searchTerm)}`;
+            }
+            const postsResponse = await fetch(url);
             const postsData = await postsResponse.json();
             const postsWithAuthors = await Promise.all(
                 postsData.map(async (post) => {
@@ -47,6 +55,7 @@
 
 <div id="post-container">
     <h1>Latest Posts:</h1>
+    <input type="search" name="search" id="search" bind:value={search} on:change={() => fetchLatestPosts()}>
     {#each posts as post}
         <Post title={post.title} author={post.author.dispname} author_realname={post.author.name} author_avatar_url={post.author.avatar_url} timestamp={post.timestamp} />
     {/each}
