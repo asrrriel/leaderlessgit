@@ -1,9 +1,10 @@
-const http = require('http');
-const api = require('./api');
-const path = require('path');
-const fs = require('fs').promises;
+import http from 'http';
+import api from './api.js';
+import path from 'path';
+import fs from 'fs/promises';
+import db from './db.js';
 
-const staticDirectory = path.join(__dirname, '../frontend/dist');
+const staticDirectory = "../frontend/dist";
 
 async function errpage(res, code, message) {
     var result = await serveFile(path.join(staticDirectory, "/error"), null);
@@ -68,6 +69,10 @@ async function serveFile(filePath, res, errcode, headers) {
         return false;
     }
 }
+
+//Initialization starts here
+
+db.init();
 
 http.createServer(async function (req, res) {
     console.log("Request from " + req.socket.remoteAddress + ": " + req.url);

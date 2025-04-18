@@ -1,15 +1,41 @@
+import db from "./db.js";
 
-module.exports = {
+async function get_posts(req,res) {
+    if(req.url.startsWith("/api/posts/search/author/")) {
+        var result = await db.get_posts_by_author(req.url.split("/")[5], 10, 0);
+        res.writeHead(200, {'Content-Type': 'text/json'});
+        res.write(JSON.stringify(result));
+        return true;
+    }
+    if(req.url.startsWith("/api/posts/search/title/")) {
+        var result = await db.get_posts_by_title(decodeURI(req.url.split("/")[5]), 10, 0);
+        res.writeHead(200, {'Content-Type': 'text/json'});
+        res.write(JSON.stringify(result));
+        return true;
+    }
+
+    var result = await db.get_latest_posts(10, 0);
+    res.writeHead(200, {'Content-Type': 'text/json'});
+    res.write(JSON.stringify(result));
+    return true;
+}
+
+async function get_messages(req,res) {
+    var result = await db.get_messages_on_post(1, 10, 0);
+    res.writeHead(200, {'Content-Type': 'text/json'});
+    res.write(JSON.stringify(result));
+    return true;
+}
+
+export default {
     async fetch(req,res) {
         //return false;
         if(!req.url.startsWith("/api")) return false;
         if(req.url.startsWith("/api/posts")){
-            res.writeHead(200, {'Content-Type': 'text/json'});
-            res.write(JSON.stringify([
-                {id: 1,type: 1,title: "test post",author: "god@heaven.hu",timestamp: 1694017830},
-                {id: 1,type: 1,title: "Trololero Trololo",author: "god@heaven.hu",timestamp: 1694017830},
-            ]));
-            return true;
+            return get_posts(req,res);
+        };
+        if(req.url.startsWith("/api/messages/")){
+            return get_messages(req,res);
         };
         if(req.url.startsWith("/api/users/get/god@heaven.hu")){
             res.writeHead(200, {'Content-Type': 'text/json'});

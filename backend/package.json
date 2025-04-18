@@ -7,5 +7,8 @@
     "test": "node index.js"
   },
   "author": "asrrriel",
-  "license": "CC0"
+  "license": "CC0",
+  "dependencies": {
+    "sqlite-async": "^1.2.0"
+  }
 }
