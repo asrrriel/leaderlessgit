@@ -8,10 +8,20 @@
         try {
             let url = '/api/posts';
             if(search !== '') {
-                const match = search.match(/^by:(title|author)\s+(.*)$/i);
-                const [, searchType, searchTerm] = match;
-                console.log(searchType, searchTerm);
-                url = `/api/posts/search/${searchType}/${encodeURIComponent(searchTerm)}`;
+                const match = search.trim().match(/^(?:by:\s*(\S+)(?:\s+(.*))?)?$/i);
+                const name = match?.[1];
+                const rest = match?.[2] ?? (!name ? search : undefined); // fallback if no "by:"
+                let searchType = 'title';
+                if (name) {
+                    searchType = 'author';
+                }
+                if (name && rest) {
+                    searchType = 'author_title';
+                }
+                url = `/api/posts/search/${searchType}/${encodeURIComponent(name || rest)}`;
+                if(searchType === 'author_title') {
+                    url += `/${encodeURIComponent(rest)}`;
+                }
             }
             const postsResponse = await fetch(url);
             const postsData = await postsResponse.json();
