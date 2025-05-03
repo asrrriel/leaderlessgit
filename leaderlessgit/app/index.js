@@ -3,8 +3,9 @@ import api from './api.js';
 import path from 'path';
 import fs from 'fs/promises';
 import db from './db.js';
+import e from 'electron';
 
-const staticDirectory = "../frontend/dist";
+const staticDirectory = "dist";
 
 async function errpage(res, code, message) {
     var result = await serveFile(path.join(staticDirectory, "/error"), null);
@@ -18,11 +19,11 @@ async function errpage(res, code, message) {
         if(typeof(result[0]) == "object"){
             const raw = result[0].toString();
             const processed = raw.replaceAll("\\\\errhere//",code.toString()).replaceAll("\\\\msghere//",message);
-            res.writeHead(code,{'Conetent-Type' : result[1]})
+            res.writeHead(code,{'Content-Type' : result[1]})
             res.write(processed);
             res.end();
         } else if (result[0] == 500) {
-            res.writeHead(500,{'Conetent-Type' : 'text/html'})
+            res.writeHead(500,{'Content-Type' : 'text/html'})
             res.write("Error page unable to load: " + result[1]);
             res.end();
         }
@@ -31,13 +32,14 @@ async function errpage(res, code, message) {
 
 async function serveFile(filePath, res, errcode, headers) {
     try {
-        const stats = await fs.stat(filePath);
-        if (stats.isDirectory()){
-            return serveFile(path.join(filePath, 'index.html'), res, errcode, headers);
+        var ext = path.extname(filePath).toLowerCase();
+        if(ext == "") {
+            filePath = staticDirectory + "/index.html";
+            ext = ".html";
         }
+        const stats = await fs.stat(filePath);
         const data = await fs.readFile(filePath);
         // Determine the MIME type
-        const ext = path.extname(filePath).toLowerCase();
         const mimeTypes = {
             '.html': 'text/html',
             '.css': 'text/css',
@@ -70,7 +72,7 @@ async function serveFile(filePath, res, errcode, headers) {
     }
 }
 
-//Initialization starts here
+//Backend initialization
 
 db.init();
 
@@ -87,4 +89,37 @@ http.createServer(async function (req, res) {
 
 }).listen(8080, () => {
     console.log("Server listening on port 8080");
+});
+
+
+//Electron Garbage
+let mainWindow;
+
+function createWindow() {
+  mainWindow = new e.BrowserWindow({
+    width: 1200,
+    height: 800,
+    autoHideMenuBar: true, 
+  });
+
+  mainWindow.loadURL('http://localhost:8080');
+
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
+}
+
+e.app.whenReady().then(createWindow);
+
+e.app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    e.app.quit();
+  }
+});
+
+// MacOS shit
+e.app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
 });

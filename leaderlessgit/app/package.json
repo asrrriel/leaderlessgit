@@ -1,7 +1,7 @@
 {
-  "name": "backend",
+  "name": "app",
   "version": "1.0.0",
-  "description": "The butt of the Leaderless GIT",
+  "description": "LeaderlessGIT app",
   "main": "index.js",
   "scripts": {
     "test": "node index.js"

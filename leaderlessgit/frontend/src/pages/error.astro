@@ -1,0 +1,28 @@
+---
+import 'bootstrap/dist/css/bootstrap.css'
+import SideBar from '../components/SideBar.svelte';
+import error from '../routes/Error.svelte';
+---
+
+<style>
+    body {
+        background-color: black;
+        color: white;
+        color-scheme: dark;
+    } 
+
+    #everything {
+        display: flex;
+        flex-direction: row;
+    }
+</style>
+
+<head>
+    <title>\\errhere// - LeaderlessGIT</title>
+</head>
+<div id="everything">
+    <SideBar client:only="svelte" />
+    <div class="container" style="min-width=calc(100% - 150px)">
+        <error client:only="svelte" code="\\errhere//" message="\\msghere//"/>
+    </div>
+</div>

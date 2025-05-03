@@ -1,0 +1,15 @@
+---
+import 'bootstrap/dist/css/bootstrap.css'
+import AppMount from '../components/AppMount.svelte';
+---
+<style>
+    body {
+        background-color: black;
+        color: white;
+        color-scheme: dark;
+        overflow-x: hidden;
+    } 
+</style>
+<body>
+    <AppMount client:only="svelte" />
+</body>
