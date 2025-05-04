@@ -1,4 +1,4 @@
-import db from "./db.js";
+import db from "./engine/db_management/forumdb.js";
 
 async function get_posts(req,res) {
     if(req.url.startsWith("/api/posts/search/author/")) {
@@ -21,7 +21,15 @@ async function get_posts(req,res) {
 }
 
 async function get_messages(req,res) {
-    var result = await db.get_messages_on_post(1, 10, 0);
+    var ids = decodeURIComponent(decodeURI(req.url.split("/")[3])).split("_");
+    var result = await db.get_messages_on_post(Number(ids[0]), Number(ids[1]), Number(ids[2]));
+    res.writeHead(200, {'Content-Type': 'text/json'});
+    res.write(JSON.stringify(result));
+    return true;
+}
+
+async function get_user(req,res) {
+    var result = await db.get_user(decodeURIComponent(decodeURI(req.url.split("/")[4])));
     res.writeHead(200, {'Content-Type': 'text/json'});
     res.write(JSON.stringify(result));
     return true;
@@ -29,7 +37,6 @@ async function get_messages(req,res) {
 
 export default {
     async fetch(req,res) {
-        //return false;
         if(!req.url.startsWith("/api")) return false;
         if(req.url.startsWith("/api/posts")){
             return get_posts(req,res);
@@ -37,10 +44,8 @@ export default {
         if(req.url.startsWith("/api/messages/")){
             return get_messages(req,res);
         };
-        if(req.url.startsWith("/api/users/get/god@heaven.hu")){
-            res.writeHead(200, {'Content-Type': 'text/json'});
-            res.write(JSON.stringify({name:"god@heaven.hu",dispname: "Asrrriel",avatar_url: "https://cdn.discordapp.com/avatars/936986830543413310/20fdb75c25b7a55790ade61275fa8328.webp?size=1024&width=461&height=461"}));
-            return true;
+        if(req.url.startsWith("/api/users/get/")){
+            return get_user(req,res);
         };
         res.writeHead(200, {'Content-Type': 'text/json'});
         res.write(JSON.stringify({hello: "world"}));

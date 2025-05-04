@@ -2,7 +2,7 @@ import http from 'http';
 import api from './api.js';
 import path from 'path';
 import fs from 'fs/promises';
-import db from './db.js';
+import db from './engine/db_management/forumdb.js';
 import e from 'electron';
 
 const staticDirectory = "dist";
