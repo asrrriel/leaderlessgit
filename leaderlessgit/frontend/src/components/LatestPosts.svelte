@@ -1,5 +1,5 @@
 <script>
-    import Post from './Post.svelte';
+    import PostCard from './PostCard.svelte';
 
     let posts = [];
     let search = '';
@@ -67,6 +67,6 @@
     <h1>Latest Posts:</h1>
     <input type="search" name="search" id="search" bind:value={search} on:change={() => fetchLatestPosts()}>
     {#each posts as post}
-        <Post title={post.title} author={post.author.dispname} author_realname={post.author.name} author_avatar_url={post.author.avatar_url} timestamp={post.timestamp} />
+        <PostCard id={post.id} title={post.title} author={post.author.dispname} author_realname={post.author.name} author_avatar_url={post.author.avatar_url} timestamp={post.timestamp} />
     {/each}
 </div>

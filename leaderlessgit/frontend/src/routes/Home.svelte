@@ -1,7 +1,3 @@
 <script>
-    import LatestPosts from '../components/LatestPosts.svelte';
-
-    document.title = "Home - LeaderlessGIT";
+    window.location.href = '/forum'; // redirect to the forum
 </script>
-
-<LatestPosts />
