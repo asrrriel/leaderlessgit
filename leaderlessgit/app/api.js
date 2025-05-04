@@ -13,6 +13,12 @@ async function get_posts(req,res) {
         res.write(JSON.stringify(result));
         return true;
     }
+    if(req.url.startsWith("/api/posts/get/")) {
+        var result = await db.get_post(Number(decodeURIComponent(decodeURI(req.url.split("/")[4])), decodeURIComponent(decodeURI(req.url.split("/")[6]))));
+        res.writeHead(200, {'Content-Type': 'text/json'});
+        res.write(JSON.stringify(result));
+        return true;
+    }
 
     var result = await db.get_latest_posts(10, 0);
     res.writeHead(200, {'Content-Type': 'text/json'});
