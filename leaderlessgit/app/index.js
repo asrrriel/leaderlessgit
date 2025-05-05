@@ -77,7 +77,7 @@ async function serveFile(filePath, res, errcode, headers) {
 db.init();
 
 http.createServer(async function (req, res) {
-    console.log("Request from " + req.socket.remoteAddress + ": " + req.url);
+    console.log("Request to: " + req.url);
     var result = await api.fetch(req, res);
     if (result) {
         res.end();

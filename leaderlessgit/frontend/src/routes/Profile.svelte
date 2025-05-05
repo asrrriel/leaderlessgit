@@ -1,16 +1,33 @@
 <script>
-    var user = {};
-    async function load(params) {
-        const username = window.location.pathname.split('/')[3];
-        const userResponse = await fetch(`/api/users/get/${username}`);
-        user = await userResponse.json();
-    }
-    load(); // FUCK YOU JAVASCRIPT
+    import { onMount } from "svelte";
 
-    console.log(user);
+    let user = null;
+    let error = null;
 
-    document.title = user.dispname + " @ LeaderlessGIT";
+    onMount(async () => {
+        try {
+            const username = window.location.pathname.split('/')[3];
+            const res = await fetch(`/api/users/get/${username}`);
+            if (!res.ok) throw new Error("User not found");
+            user = await res.json();
+            document.title = `${user.dispname} @ LeaderlessGIT`;
+        } catch (err) {
+            error = err.message;
+        }
+    });
 </script>
 
-<img src={user.avatar_url} alt={user.dispname}>
-<h1>{user.dispname}(a.k.a {user.name})</h1>
+{#if error}
+    <div class="alert alert-danger mt-4">{error}</div>
+{:else if !user}
+    <div class="d-flex justify-content-center mt-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+{:else}
+    <div class="container mt-5 text-center">
+        <img src="{user.avatar_url}" alt="{user.dispname}" class="rounded-circle shadow mb-3" width="150" height="150">
+        <h1 class="display-5">{user.dispname} <small class="text-secondary">({user.name})</small></h1>
+    </div>
+{/if}
