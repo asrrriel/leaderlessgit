@@ -2,7 +2,7 @@ import http from 'http';
 import api from './api.js';
 import path from 'path';
 import fs from 'fs/promises';
-import ForumDatabase from './engine/db_management/forumdb.js';
+import ForumDatabase from './engine/forumdb.js';
 import e from 'electron';
 import repo from './engine/repo.js';
 
