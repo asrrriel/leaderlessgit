@@ -2,8 +2,9 @@ import http from 'http';
 import api from './api.js';
 import path from 'path';
 import fs from 'fs/promises';
-import db from './engine/db_management/forumdb.js';
+import ForumDatabase from './engine/db_management/forumdb.js';
 import e from 'electron';
+import repo from './engine/repo.js';
 
 const staticDirectory = "dist";
 
@@ -74,7 +75,11 @@ async function serveFile(filePath, res, errcode, headers) {
 
 //Backend initialization
 
-db.init();
+repo.init("./test");
+
+var db = new ForumDatabase();
+db.init("./test");
+await api.setDb(db);
 
 http.createServer(async function (req, res) {
     console.log("Request to: " + req.url);

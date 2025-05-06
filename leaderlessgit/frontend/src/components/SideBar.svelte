@@ -11,11 +11,9 @@
 </script>
 <div class="d-grid gap-2 mx-auto">
         {#each [
-            { href: "/forum", label: "Discussions" },
             { href: "/tree", label: "Tree" },
             { href: "/commits", label: "Commits" },
-            { href: "/branches", label: "Branches" },
-            { href: "/votes", label: "Votes" }
+            { href: "/forum", label: "Forum" },
         ] as link}
                 <button type="button" class="btn w-100 {window.location.pathname.startsWith(link.href) ? 'btn-primary' : 'btn-dark'}" on:click={() => goto(link.href)}>
                     {link.label}

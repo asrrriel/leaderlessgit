@@ -1,4 +1,6 @@
-import db from "./engine/db_management/forumdb.js";
+
+
+var db = undefined;
 
 async function get_posts(req,res) {
     if(req.url.startsWith("/api/posts/search/author/")) {
@@ -42,6 +44,9 @@ async function get_user(req,res) {
 }
 
 export default {
+    setDb(database) {
+        db = database;
+    },
     async fetch(req,res) {
         if(!req.url.startsWith("/api")) return false;
         if(req.url.startsWith("/api/posts")){
